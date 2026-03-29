@@ -559,7 +559,7 @@ $$
 \tag{89}
 $$
 
-非线性摆问题通过 `TimeSolverPF` 或 `TimeSolverTRhoPF` 求解，将 $\omega^2\sin\theta$ 作为非线性力向量处理。算法在每个时步内通过迭代更新切线刚度矩阵，并用公式(86)的 Hermite 插值估计子步状态量。
+初速度 $\dot{\theta}_0=1.999999238456499\;\mathrm{rad/s}$ 的精确取值使摆几乎到达最高点（$\theta_\mathrm{max}=\pm179.9°$）但不完成整圈转动，以测试算法在强非线性极端条件下的收敛性。 `TimeSolverPF` 或 `TimeSolverTRhoPF` 求解，将 $\omega^2\sin\theta$ 作为非线性力向量处理。算法在每个时步内通过迭代更新切线刚度矩阵，并用公式(86)的 Hermite 插值估计子步状态量。
 
 ---
 
@@ -758,9 +758,11 @@ end
 ```
 
 $$
-p_M(r) = -1 + 3r - \frac{3}{2}r^2 + \frac{1}{8}r^3 = \pm\rho_\infty
+p_M(r) = -1 + 3r - \frac{3}{2}r^2 + \frac{1}{6}r^3 = \pm\rho_\infty
 \tag{A.13}
 $$
+
+> **注**：论文正文公式(A.13)的最高次项系数印为 $1/8$，但由代码 `pMcoe = ((-1).^j).*factorial(M)./factorial(j)./(factorial(M-j).^2)`（$j=3$: $3!/(3!\cdot(0!)^2)=1/6$）及论文同页具体算例均可验证正确系数为 $1/6$。
 
 对于 $M=3$，$\rho_\infty=0.125$，右侧取 $-\rho_\infty$：
 
